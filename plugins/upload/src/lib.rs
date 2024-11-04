@@ -58,6 +58,7 @@ impl Serialize for Error {
 }
 
 #[derive(Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 struct ProgressPayload {
     progress: u64,
     total: u64,
@@ -150,7 +151,11 @@ fn file_to_body(channel: Channel<ProgressPayload>, file: File) -> reqwest::Body 
         stream,
         Box::new(move |progress, total| {
             stats.record_chunk_transfer(progress as usize);
-            let _ = channel.send(ProgressPayload { progress, total, transfer_speed: stats.transfer_speed });
+            let _ = channel.send(ProgressPayload {
+                progress,
+                total,
+                transfer_speed: stats.transfer_speed,
+            });
         }),
     ))
 }

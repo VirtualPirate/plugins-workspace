@@ -6,7 +6,7 @@ pub struct TransferStats {
     accumulated_time: u128,       // Total time taken for the transfers in the current period
     pub transfer_speed: u64,      // Calculated transfer speed in bytes per second
     start_time: Instant,          // Time when the current period started
-    granularity: u32,             // Time period (in milliseconds) over which the transfer speed is calculated
+    granularity: u32, // Time period (in milliseconds) over which the transfer speed is calculated
 }
 
 impl TransferStats {
@@ -29,7 +29,8 @@ impl TransferStats {
 
         // If the accumulated time exceeds the granularity, calculate the transfer speed.
         if self.accumulated_time >= self.granularity as u128 {
-            self.transfer_speed = (self.accumulated_chunk_len as u128 / self.accumulated_time * 1024) as u64;
+            self.transfer_speed =
+                (self.accumulated_chunk_len as u128 / self.accumulated_time * 1024) as u64;
             self.accumulated_chunk_len = 0;
             self.accumulated_time = 0;
         }
